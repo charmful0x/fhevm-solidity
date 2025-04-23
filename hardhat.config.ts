@@ -33,12 +33,6 @@ task('compile:specific', 'Compiles only the specified contract')
 const dotenvConfigPath: string = process.env.DOTENV_CONFIG_PATH || './.env';
 dotenv.config({ path: resolve(__dirname, dotenvConfigPath) });
 
-// Ensure that we have all the environment variables we need.
-let mnemonic: string | undefined = process.env.MNEMONIC;
-if (!mnemonic) {
-  mnemonic = 'adapt mosquito move limb mobile illegal tree voyage juice mosquito burger raise father hope layer'; // default mnemonic in case it is undefined (needed to avoid panicking when deploying on real network)
-}
-
 task('coverage').setAction(async (taskArgs, hre, runSuper) => {
   hre.config.networks.hardhat.allowUnlimitedContractSize = true;
   hre.config.networks.hardhat.blockGasLimit = 1099511627775;
@@ -76,7 +70,7 @@ const chainIds = {
   staging: 12345,
   zwsDev: 1337,
   mainnet: 1,
-  custom: 9999,
+  custom: 9496,
 };
 
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
@@ -85,18 +79,14 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
     jsonRpcUrl = 'http://127.0.0.1:8756';
   }
   return {
-    accounts: {
-      count: NUM_ACCOUNTS,
-      mnemonic,
-      path: "m/44'/60'/0'/0",
-    },
+    accounts: [process.env.PRIVATE_KEY!],
     chainId: process.env.CHAIN_ID ? Number(process.env.CHAIN_ID) : chainIds[chain],
     url: jsonRpcUrl,
   };
 }
 
 const config: HardhatUserConfig = {
-  defaultNetwork: 'sepolia',
+  defaultNetwork: 'custom',
   namedAccounts: {
     deployer: 0,
   },
@@ -113,7 +103,7 @@ const config: HardhatUserConfig = {
     hardhat: {
       accounts: {
         count: 20,
-        mnemonic,
+        mnemonic: 'test test test test test test test test test test test junk',
         path: "m/44'/60'/0'/0",
       },
     },
@@ -127,19 +117,15 @@ const config: HardhatUserConfig = {
   paths: {
     artifacts: './artifacts',
     cache: './cache',
-    sources: './lib',
+    sources: './examples',
     tests: './test',
   },
   solidity: {
     version: '0.8.24',
     settings: {
       metadata: {
-        // Not including the metadata hash
-        // https://github.com/paulrberg/hardhat-template/issues/31
         bytecodeHash: 'none',
       },
-      // Disable the optimizer when debugging
-      // https://hardhat.org/hardhat-network/#solidity-optimizer-support
       optimizer: {
         enabled: true,
         runs: 800,

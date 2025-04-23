@@ -2,4 +2,4 @@
 
 pragma solidity ^0.8.24;
 
-address constant inputVerifierAdd = address(0);
+address constant inputVerifierAdd = 0x3A29aF42e8F160E99e318ca95C99F30238632f94;
