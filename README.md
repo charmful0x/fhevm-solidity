@@ -8,6 +8,8 @@
 
 <hr/>
 
+# deployer address: https://explorer.load.network/address/0xb76FaBf56a6A9872efeA4EF848605D32eAfF13cE
+
 <p align="center">
   <a href="fhevm-whitepaper-v2.pdf"> 📃 Read white paper</a> |<a href="https://docs.zama.ai/fhevm"> 📒 Documentation</a> | <a href="https://zama.ai/community"> 💛 Community support</a> | <a href="https://github.com/zama-ai/awesome-zama"> 📚 FHE resources by Zama</a>
 </p>
